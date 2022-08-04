@@ -55,8 +55,17 @@ class ReverseCounter extends PureComponent<ReverseCounterProps> {
   }
 }
 
+// Custom Hook
+const useReverseCounter = () => { 
+  const [count, setCount] = React.useState(5);
+  const decrement = () => setCount(count - 1);
+  const resetCounter = () => setCount(5);
+  return {count, decrement, resetCounter};
+}
 const App = () => {
   const [counter, setCounter] = React.useState(0);
+  const {count, decrement, resetCounter} = useReverseCounter();
+  
   return (
   <div className="App">
      <h1>Hi there!</h1>
@@ -71,6 +80,15 @@ const App = () => {
      <AppBtn onClick={() => setCounter(counter +1)} text="Тиць"/>
      <h2>Reverse Counter</h2>
      <ReverseCounter text="Мінус"/>
+     <h2>Custom hook try</h2>
+     <p>Every click decreases count by 1 point, when the count is 0, button is disabled</p>
+     <p>If you click Reset button, Count will be updated</p>
+     <p>Count: {count}</p>
+     <div className="wrapBtn">
+      <button onClick={decrement} disabled={count <= 0 ? true : false}>Minus</button>
+      <button onClick={resetCounter}>Reset</button>
+     </div>
+     <span className={count <= 0 ? "alert enable" : "alert"}>Button is disabled</span>
   </div>
   )
 }
